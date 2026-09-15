@@ -1,8 +1,8 @@
 # archive-quotev-story
 
-Personal Codex skill for archiving complete Quotev fiction into a Chinese library with a review-first workflow.
+Personal Codex skill for archiving complete Quotev fiction into an author-grouped Chinese library with a review-first workflow. It can also reorganize an existing library after presenting a complete dry-run tree for approval.
 
-The review phase creates Markdown and `cover.jpg`. TXT and EPUB are generated only after explicit approval.
+The review phase creates Markdown and a cover. TXT and EPUB are generated only after explicit approval.
 
 ## Install with Codex
 
@@ -17,8 +17,6 @@ If the skill does not appear after installation, restart Codex.
 
 ## Manual installation
 
-Clone the repository and link it into the personal skills directory:
-
 ```bash
 git clone https://github.com/Eutopia95/archive-quotev-story.git ~/Documents/archive-quotev-story
 mkdir -p ~/.agents/skills
@@ -28,8 +26,10 @@ ln -s ~/Documents/archive-quotev-story ~/.agents/skills/archive-quotev-story
 Codex supports symlinked skill folders. The skill writes archived works to:
 
 ```text
-~/Downloads/同人文/<作者> - <书名>/
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents/熵减/同人/<作者>/
 ```
+
+Work files are stored directly in each author folder. Covers are named `<书名> cover.jpg`; no per-work subfolder is created.
 
 ## Update
 
@@ -39,3 +39,5 @@ git pull
 ```
 
 The repository contains only the skill instructions and deterministic build script. It does not contain archived fiction, covers, TXT files, or EPUB files.
+
+See [CHANGELOG.md](CHANGELOG.md) for feature history.
