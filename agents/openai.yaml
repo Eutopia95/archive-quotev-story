@@ -1,4 +1,4 @@
 interface:
   display_name: "Archive Quotev Story"
-  short_description: "Review-first Quotev fiction archive to MD, cover, TXT, and EPUB"
-  default_prompt: "Use $archive-quotev-story to archive these Quotev stories into my 同人文 library, generating Markdown and covers for review first."
+  short_description: "Archive Quotev fiction and organize it by author"
+  default_prompt: "Use $archive-quotev-story to archive these Quotev stories into my author-grouped 同人 library, generating Markdown and covers for review first."
