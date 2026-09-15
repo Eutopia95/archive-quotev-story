@@ -1,22 +1,25 @@
 ---
 name: archive-quotev-story
-description: Archive complete Quotev fiction into a personal Chinese library with a review-first workflow. Use for Quotev 小说、同人文、正文整理、封面、Markdown、TXT 或 Kindle EPUB；默认先生成可审核的 Markdown 和封面，确认后再生成 TXT 与 EPUB. Do not use for unrelated sites or a single pasted excerpt.
+description: Archive complete Quotev fiction into an author-grouped Chinese library with a review-first workflow, or reorganize an existing Quotev library by author. Use for Quotev 小说、同人文、正文整理、封面、Markdown、TXT、Kindle EPUB 或按作者整理资料库；默认先生成可审核的 Markdown 和封面，确认后再生成 TXT 与 EPUB. Do not use for unrelated sites or a single pasted excerpt.
 ---
 
 # Archive Quotev Story
 
-Archive Quotev stories into the current user's library. Resolve `~` to the
-current user's home directory before any filesystem operation:
+Archive Quotev stories into the current user's iCloud Obsidian library. Resolve
+`~` to the current user's home directory before any filesystem operation:
 
 ```text
-~/Downloads/同人文/<作者> - <书名>/
-├── cover.jpg
-├── <书名> by <作者>.md
-├── <书名> by <作者>.txt       # only after approval
-└── <书名> by <作者>.epub      # only after approval
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents/熵减/同人/
+└── <作者>/
+    ├── <书名> cover.jpg
+    ├── <书名> by <作者>.md
+    ├── <书名> by <作者>.txt       # only after approval
+    └── <书名> by <作者>.epub      # only after approval
 ```
 
-The folder uses `作者 - 书名`; filenames and MD/TXT first lines use `书名 by 作者`.
+Use one folder per author and keep every work file directly in it. Do not create
+per-work subfolders. Filenames and MD/TXT first lines use `书名 by 作者`; covers
+use `书名 cover.jpg` so multiple covers can coexist in one author folder.
 
 ## Choose the phase
 
@@ -24,6 +27,18 @@ The folder uses `作者 - 书名`; filenames and MD/TXT first lines use `书名 
 - Do not install TXT or EPUB until the user explicitly approves the reviewed Markdown, chapter titles, body cleanup, and cover.
 - When the user approves: **publication phase**. Generate TXT and EPUB from the current library Markdown, not from stale extraction JSON. Preserve the reviewed headings and text exactly.
 - A title, body, or cover edit during review updates only the reviewed files unless the user also asks to rebuild TXT/EPUB.
+
+## Reorganize an existing library
+
+Use this mode only when the user asks to regroup or flatten an existing fiction library.
+
+1. Inventory the current folders and files without modifying them.
+2. Present the complete proposed author-folder tree for approval before moving anything.
+3. After approval, create `<作者>/` folders and move every work's MD, TXT, EPUB, and cover directly into the matching author folder.
+4. Rename each generic `cover.jpg` to `<书名> cover.jpg` before moving it. Preserve all other filenames unless the user requests a rename.
+5. Detect target-name conflicts before moving. Stop and report conflicts instead of overwriting.
+6. Remove only source folders that are empty after a successful move. Preserve unrelated files and configuration directories such as `.obsidian`.
+7. Verify that no old `作者 - 书名` work folders remain and report counts by file type.
 
 ## Required tools
 
@@ -66,7 +81,7 @@ For large works, extract in bounded batches and save every completed batch. A ti
 ## Prepare the cover
 
 1. Export the work's own `og:image` through page assets.
-2. Save `cover.jpg` as JPEG, exactly 1080×1440 pixels (3:4), with 300-DPI metadata.
+2. Save `<书名> cover.jpg` as JPEG, exactly 1080×1440 pixels (3:4), with 300-DPI metadata.
 3. Preserve original art and typography. Crop only when no person, title, seal, or focal object is lost.
 4. For square or landscape originals, prefer a clean, source-matched canvas extension/padding that keeps the full image. Use ImageGen only when a content-aware extension is necessary.
 5. Do not add missing title text by default. For requested text edits, create non-destructive previews and wait for explicit approval before replacing the library cover or EPUB cover. Chinese spelling must be exact.
@@ -99,16 +114,16 @@ Run the builder in a temporary output directory. During publication after review
 - One NCX entry and one valid XHTML file per Markdown chapter.
 - No visible `toc.xhtml` page or TOC spine item.
 - Reading order begins cover → chapter 01.
-- Cover appears in OPF metadata and the EPUB 2 guide and is identical to library `cover.jpg`.
+- Cover appears in OPF metadata and the EPUB 2 guide and is identical to library `<书名> cover.jpg`.
 - Metadata title and author use normalized values.
 
 ## Install safely
 
-- Resolve the exact destination `<作者> - <书名>` before writing.
-- For review, install only `cover.jpg` and `<书名> by <作者>.md`.
+- Resolve the exact destination `<作者>/` before writing.
+- For review, install only `<书名> cover.jpg` and `<书名> by <作者>.md` directly inside the author folder.
 - For publication, add or update only `<书名> by <作者>.txt` and `<书名> by <作者>.epub`, unless the user separately requests MD or cover changes.
 - Do not overwrite an existing work unless the user asked to update it. Preserve unrelated files.
-- Do not rename files when renaming a library folder unless explicitly requested.
+- Do not create a work-level subfolder.
 - Retain or clean temporary work according to the user's latest stated preference.
 
 ## Verify before reporting
@@ -118,7 +133,8 @@ Run the builder in a temporary output directory. During publication after review
 - Discovered chapter count equals Markdown `##` heading count.
 - No empty chapter, trailing login prompt, unwanted duplicate heading, or literal paragraph-leading whitespace remains.
 - Markdown first line and filename are `<书名> by <作者>`.
-- Destination folder is `<作者> - <书名>` and contains only the authorized files.
+- Destination is the existing or newly created `<作者>/` folder; the work files are stored directly inside it.
+- Cover filename is `<书名> cover.jpg`.
 - Cover is JPEG, 1080×1440, 300 DPI; report crop, padding, or ImageGen treatment.
 - Report preserved special headings and genuine placeholders.
 
